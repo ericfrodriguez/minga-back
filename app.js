@@ -1,45 +1,28 @@
-import 'dotenv/config.js'
-// require('dotenv').config()
+import 'dotenv/config.js' //requiero la configuracion de las variables de entorno
+import './config/database.js' //requiero la configuracion de la db
 
-import createError from 'http-errors';
-import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
+import express from 'express' //metodos de express para configurar y levantar servidores
+import path from 'path' //metodos para trabajar con rutas de archivos y directorios
+import logger from 'morgan' //middleware que registra peticiones y errores HTTP
+import indexRouter from './routes/index.js' //rutas de index
+import usersRouter from './routes/users.js' //rutas de usuarios
+import {__dirname} from './utils.js' //direccion de la carpeta raíz del proyecto
 
-import {__dirname} from './utils.js'
+const app = express() //método para levantar un servidor
 
-var app = express();
+//view engine
+app.set('view engine', 'ejs') //configuro el motor de vistas generadas por el back
+app.set('views', path.join(__dirname, 'views')) //configuro donde van a estar las vistas
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+//middlewares
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//routes
+app.use('/', indexRouter)
+app.use('/users', usersRouter)
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-export default app;
+//app
+export default app

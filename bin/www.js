@@ -1,91 +1,57 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
-import app from '../app.js';
+import app from '../app.js'
 import debug from 'debug'
-const logger = debug('minga-backend:server');
-import http from 'http';
+const logger = debug('minga-backend:server')
+import http from 'http'
 
-/**
- * Get port from environment and store in Express.
- */
+let port = normalizePort(process.env.PORT || '3000')
 
-var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
+let server = http.createServer(app);
+server.listen(port,()=> console.log('server ready on port: '+port))
+server.on('error', onError)
+server.on('listening', onListening)
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
-
+  let port = parseInt(val, 10)
   if (isNaN(port)) {
     // named pipe
-    return val;
+    return val
   }
-
   if (port >= 0) {
     // port number
-    return port;
+    return port
   }
-
-  return false;
+  return false
 }
-
-/**
- * Event listener for HTTP server "error" event.
- */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
-    throw error;
+    throw error
   }
-
-  var bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
-    : 'Port ' + port;
-
+    : 'Port ' + port
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
+      console.error(bind + ' requires elevated privileges')
+      process.exit(1)
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
+      console.error(bind + ' is already in use')
+      process.exit(1)
+      break
     default:
-      throw error;
+      throw error
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  let addr = server.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  logger('Listening on ' + bind);
+    : 'port ' + addr.port
+  logger('Listening on ' + bind)
 }
