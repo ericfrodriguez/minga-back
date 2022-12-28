@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const categorySchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
     {
         name: {type: String, required: true},
         ranking: {type: Number},
@@ -12,7 +12,4 @@ const categorySchema = new mongoose.Schema(
     }
 )
 
-export const Category = mongoose.model('category', categorySchema)
-//aunque pasemos la coleccion en singular
-//mongo la crea automaticamente en plural
-//por lo que conviene directamente definirla en plural (recordar que una coleccion es un conjunto de documentos)
+export const Category = mongoose.model('categories', schema)
