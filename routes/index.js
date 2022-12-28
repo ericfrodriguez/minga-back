@@ -1,5 +1,5 @@
-import categories from './categories.js'
-import users from './users.js'
+import categories from './categories.route.js'
+import users from './users.route.js'
 import express from 'express'
 let router = express.Router()
 
