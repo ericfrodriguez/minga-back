@@ -6,7 +6,7 @@ const schema = new mongoose.Schema(
         ranking: {type: Number},
         examples: [{type: String}],
         detail: {type: String, required: true},
-        user_id: {type: String, required: true}
+        user_id: {type: mongoose.Types.ObjectId, ref: 'users', required: true}
     },{
         timestamps: true
     }
