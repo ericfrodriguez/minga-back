@@ -2,27 +2,24 @@ import { Category } from '../models/Category.js'
 import { User } from '../models/User.js'
 
 const controller = {
-    create: async(req,res)=> {  //C create va a controlar la creación de una nueva categoria
-        try {
+    //C create va a controlar la creación de una nueva categoria
+    create: async(req,res,next)=> { //defino un método asíncrono que va a depender de REQ (requerimiento), RES (respuesta) y NEXT (funcion "pasadora")
+        try { //en el try se intenta hacer algo
             const { name,ranking,examples,detail,user_id } = req.body
             let category = await Category.create({ name,ranking,examples,detail,user_id })
-            //en body el usuario manda un objeto CON TODO LO QUE NECESITA
-            //(en este caso en particular para crear una categoria)
             res.status(201).json({
                 success: true,
                 response: 'done',
-                new_category: category //NO SE DEBE ENVIAR
+                new_category: category //NO SE DEBERIA ENVIAR
             })
-        } catch(error) {
-            console.log(error)
+        } catch(error) { //en el catch se catchea cualquier ERROR que suceda en el try (y con el next ejecuto el middleware de manejo de error)
+            next(error)
         }
     },
-    read: async(req,res)=> {  //R cread va a controlar la lectura de TODAS categorias (incluso manejando filtros incluso)
-        //en una peticion GET es muuuy raro que l usuario envie informacion en el REQ (salvo filtros)
-        //entonces en este caso en particular TENGO QUE buscar todas la categorias en mongo
-        //y enviarlas al cliente a través re RES
-        try { //en el try se intenta hacer algo
-            let categories = await Category.find() //find es un metodo de mongoose que busca TODOS los documentos de este modlo (CATEGORY)
+    //R cread va a controlar la lectura de TODAS categorias (incluso manejando filtros incluso)
+    read: async(req,res,next)=> {
+        try {
+            let categories = await Category.find()
             if (categories) {
                 res.status(200).json({
                     success: true,
@@ -34,16 +31,16 @@ const controller = {
                     success: false,
                     response: 'not found'
                 })
-            }
-            
-        } catch(error) { //en el catch se catchea cualquier ERROR que suceda en el try y se lo opera (maneja TODOS los errores)
-            console.log(error)
+            }            
+        } catch(error) {
+            next(error)
         }
     },
-    one: async(req,res)=> {  //one es una derivacion del read (ya que solo me va a buscar UNA CATEGORIA)
+    //one es una derivacion del read (ya que solo me va a buscar UNA CATEGORIA)
+    one: async(req,res,next)=> {
         try {
-            const { category_id } = req.params //req.params es el parámetro que me mandar el cliente como requerimiento
-            let one = await Category.findById(category_id).populate('user_id')
+            const { category_id } = req.params
+            let one = await Category.findById(category_id).populate('user_id') //con populate me traigo los datos "guardados" en el ObjectId
             if (one) {
                 res.status(200).json({
                     success: true,
@@ -56,30 +53,24 @@ const controller = {
                 })
             }            
         } catch(error) {
-            console.log(error)
+            next(error)
         }
     },
-    update: async(req,res)=> {  //U update va a controlar la actualizacion de las categorias
+    update: async(req,res,next)=> {
         try {
             const { id } = req.params
-            //como buena practica no se desestructura el req.body con la / las propiedades a actualizar
-            let category = await Category.findOneAndUpdate(
-                { _id: id }, //primer parámetro: el necesario para encontrar el documento a modificar
-                req.body, //segundo parametro: el objeto con las modificaciones a realizar
-                { new: true } //tercer parametro: objeto que en TRUE habilita la modificacion reemplazando el documento
-                //en TRUE reemplaza el documento VIEJO
-                //en FALSE crea un documento nuevo con las modificaciones
-            )
+            let category = await Category.findOneAndUpdate({ _id: id },req.body,{ new: true })
             res.status(200).json({
                 success: true,
                 response: 'updated',
                 updated_category: category
             })
         } catch(error) {
-            console.log(error)
+            next(error)
         }
     },
-    destroy: async(req,res)=> {  //D destroy va a controlar la eliminacion de una categoria
+    //D destroy va a controlar la eliminacion de una categoria
+    destroy: async(req,res,next)=> {
         try {
             const { id } = req.params
             await Category.findByIdAndDelete(id)
@@ -88,7 +79,7 @@ const controller = {
                 response: 'deleted'
             })
         } catch(error) {
-            console.log(error)
+            next(error)
         }
     }
 }
@@ -112,4 +103,4 @@ const controller = {
                 //ES DECIR, TODAS DEVUELVAN EL MISMO TIPO DE JSON CON LAS MISMAS PROPIEDAD
 
 export default controller
-//DEFINIDO EL CONTROLADOR, CONFIGURO LA RUTA DE CADA MÉTODO
+//DEFINIDO EL CONTROLADOR, LUEGO CONFIGURO LA RUTA DE CADA MÉTODO, LUEGO PRUEBO EN POSTMAN

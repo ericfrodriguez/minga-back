@@ -4,8 +4,11 @@ import './config/database.js' //requiero la configuracion de la db
 import express from 'express' //metodos de express para configurar y levantar servidores
 import path from 'path' //metodos para trabajar con rutas de archivos y directorios
 import logger from 'morgan' //middleware que registra peticiones y errores HTTP
+import cors from 'cors' //middleware que me da permisos para trabajar con diferentes servidores
 import indexRouter from './routes/index.js' //rutas de index
 import {__dirname} from './utils.js' //direccion de la carpeta raíz del proyecto
+import { notFoundHandler } from './middlewares/notFoundHandler.js'
+import { errorHandler } from './middlewares/errorHandler.js'
 
 const app = express() //método para levantar un servidor
 
@@ -14,13 +17,16 @@ app.set('view engine', 'ejs') //configuro el motor de vistas generadas por el ba
 app.set('views', path.join(__dirname, 'views')) //configuro donde van a estar las vistas
 
 //middlewares
+app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 //routes
-app.use('/', indexRouter)
+app.use('/',indexRouter)
+app.use(notFoundHandler)
+app.use(errorHandler)
 
 //app
 export default app
