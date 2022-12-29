@@ -5,7 +5,7 @@ import debug from 'debug'
 const logger = debug('minga-backend:server')
 import http from 'http'
 
-let port = normalizePort(process.env.PORT || '3000')
+let port = normalizePort(process.env.PORT || '8000')
 
 app.set('port', port);
 let server = http.createServer(app);
