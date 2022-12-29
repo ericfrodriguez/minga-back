@@ -1,7 +1,9 @@
-export const errorHandler = (req, res, next) => {
-
-    return res.status(404).json({
-        success: false,
-        message: `Ruta ${req.url} method ${req.method} no implementada`
-    })
+export const errorHandler = (error, req, res, next) => {
+	console.error(error.stack)
+	return res.status(400).json({
+		success: false,
+		method: req.method,
+        path: req.url,
+		response: error.message
+	})
 }
