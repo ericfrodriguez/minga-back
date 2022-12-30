@@ -1,9 +1,11 @@
 import controller from '../controllers/categories.controller.js'
+import schema from '../schemas/categories.schema.js'
+import validator from '../middlewares/validator.js'
 const { create,read,one,update,destroy } = controller
 import express from 'express'
 let router = express.Router()
 
-router.post('/',create)
+router.post('/',validator(schema),create)
 router.get('/',read)
 router.get('/:category_id',one)
 router.put('/:id',update)
