@@ -4,8 +4,10 @@ const validator = (schema) => [
         //se valida/compara el schema con el body
         if(data.error){
             return res.status(400).json({
-                succes:false,
-                message:data.error.details
+                success: false,
+                method: req.method,
+                path: req.url,
+                response: data.error.details
             })
         }
         next()
