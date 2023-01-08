@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "cat": "node ./models/data/categories.js",
-    "user": "node ./models/data/users.js"
+    "data": "node ./models/data/data.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
