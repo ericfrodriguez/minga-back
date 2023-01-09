@@ -6,7 +6,7 @@ import path from 'path' //metodos para trabajar con rutas de archivos y director
 import logger from 'morgan' //middleware que registra peticiones y errores HTTP
 import cors from 'cors' //middleware que me da permisos para trabajar con diferentes servidores
 import indexRouter from './routes/index.js' //rutas de index
-import {__dirname} from './utils.js' //direccion de la carpeta raíz del proyecto
+import { __dirname } from './utils.js' //direccion de la carpeta raíz del proyecto
 import { notFoundHandler } from './middlewares/notFoundHandler.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 //routes
-app.use('/',indexRouter)
+app.use('/api',indexRouter)
 app.use(notFoundHandler)
 app.use(errorHandler)
 

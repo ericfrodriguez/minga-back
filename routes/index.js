@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 })
 
 router.use('/categories', categories)
-router.use('/users',users) //obligo al enrrutador principal
-//a usar el path USERS con las rutas definidas en el enrrutador de USERS
+router.use('/auth',users)
 
 export default router
