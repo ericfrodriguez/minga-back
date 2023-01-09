@@ -1,6 +1,6 @@
 export let user1 = {
     mail: "alejandro@mh.com.ar",
-    password: "hola1234",
+    password: "$2a$10$XZBDuOYHcHSzZNzf2ws7Quvu3YmKgSagWRUG1eGlBLSdxJunpN1LC",
     is_author: true,
     is_company: false,
     is_admin: false,
@@ -11,7 +11,7 @@ export let user1 = {
 }
 export let user2 = {
     mail: "lucas@mh.com.ar",
-    password: "hola1234",
+    password: "$2a$10$XZBDuOYHcHSzZNzf2ws7Quvu3YmKgSagWRUG1eGlBLSdxJunpN1LC",
     is_author: true,
     is_company: false,
     is_admin: false,
@@ -22,7 +22,7 @@ export let user2 = {
 }
 export let user3 = {
     mail: "jose@mh.com.ar",
-    password: "hola1234",
+    password: "$2a$10$XZBDuOYHcHSzZNzf2ws7Quvu3YmKgSagWRUG1eGlBLSdxJunpN1LC",
     is_author: true,
     is_company: false,
     is_admin: false,
@@ -33,7 +33,7 @@ export let user3 = {
 }
 export let user4 = {
     mail: "eric@mh.com.ar",
-    password: "hola1234",
+    password: "$2a$10$XZBDuOYHcHSzZNzf2ws7Quvu3YmKgSagWRUG1eGlBLSdxJunpN1LC",
     is_author: true,
     is_company: false,
     is_admin: false,
@@ -44,7 +44,7 @@ export let user4 = {
 }
 export let user5 = {
     mail: "igna@mh.com.ar",
-    password: "hola1234",
+    password: "$2a$10$XZBDuOYHcHSzZNzf2ws7Quvu3YmKgSagWRUG1eGlBLSdxJunpN1LC",
     is_author: true,
     is_company: false,
     is_admin: false,
@@ -55,7 +55,7 @@ export let user5 = {
 }
 export let user6 = {
     mail: "silvina@mh.com.ar",
-    password: "hola1234",
+    password: "$2a$10$XZBDuOYHcHSzZNzf2ws7Quvu3YmKgSagWRUG1eGlBLSdxJunpN1LC",
     is_author: true,
     is_company: false,
     is_admin: false,
