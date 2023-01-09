@@ -1,14 +1,15 @@
 import controller from '../controllers/categories.controller.js'
-import schema from '../schemas/categories.schema.js'
-import validator from '../middlewares/validator.js'
-const { create,read,one,update,destroy } = controller
+const { create,read } = controller
+import passport from '../config/passport.js'
 import express from 'express'
 let router = express.Router()
+import isAdmin from '../middlewares/isAdmin.js'
 
-router.post('/:author_id/:company_id',validator(schema),create)
+router.post('/',passport.authenticate('jwt', { session:false }),isAdmin,create)
+//passport inyecta el objeto user al req
+//luego para verirficar que SOLO los administrador puedan crear una categoria
+    //debo configurar un middleware
 router.get('/',read)
-router.get('/:category_id',one)
-router.put('/:id',update)
-router.delete('/:id',destroy)
+
 
 export default router

@@ -74,6 +74,7 @@ const controller = {
     },
 
     signout: async (req, res, next) => {
+        console.log(req.user)
         const { mail } = req.user
         try {
             //si tiene éxito debe cambiar online de true a false
