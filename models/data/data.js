@@ -18,17 +18,15 @@ let newDoc = async(user,model,dataModel) => {
     return newModel._id
 }
 
-let newCategories = async(categories) => {
-    categories.forEach(cat => Category.create(cat))
-}
+let newCategories = async(categories) => await Category.insertMany(categories)
 newCategories(categories)
 
 let newComic = async(comic,author,company) => {
     let category = await Category.findOne({ name: comic.category_name })
     comic.category_id = category._id
-    comic.author_id = author._id
+    comic.author_id = author
     if (company) {
-        comic.company_id = company._id
+        comic.company_id = company
     }
     let newComic = await Comic.create(comic)
     return newComic._id
