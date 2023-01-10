@@ -1,15 +1,15 @@
 import 'dotenv/config.js'
-import '../../config/database.js'
+import '../../../minga-back/config/database.js'
 import { user1,user2,user3,user4,user5,user6,user7,user8,user9,user10 } from './users.js'
 import { author1,author2,author3,author4,author5,author6 } from './authors.js'
 import { company1,company2,company3,company4 } from './companies.js'
 import { categories } from './categories.js'
 import { comic1,comic2,comic3,comic4,comic5,comic6,comic7,comic8,comic9,comic10,comic11,comic12,comic13,comic14,comic15,comic16,comic17,comic18,comic19,comic20,comic21,comic22,comic23,comic24,comic25,comic26,comic27,comic28,comic29,comic30,comic31,comic32,comic33 } from './comics.js'
-import { User } from '../User.js'
-import { Author } from '../Author.js'
-import { Company } from '../Company.js'
-import { Category } from '../Category.js'
-import { Comic } from '../Comic.js'
+import { User } from '../../../minga-back/models/User.js'
+import { Author } from '../../../minga-back/models/Author.js'
+import { Company } from '../../../minga-back/models/Company.js'
+import { Category } from '../../../minga-back/models/Category.js'
+import { Comic } from '../../../minga-back/models/Comic.js'
 
 let newDoc = async(user,model,dataModel) => {
     let newUser = await User.create(user)
@@ -19,13 +19,14 @@ let newDoc = async(user,model,dataModel) => {
 }
 
 let newCategories = async(categories) => await Category.insertMany(categories)
+newCategories(categories)
 
 let newComic = async(comic,author,company) => {
     let category = await Category.findOne({ name: comic.category_name })
     comic.category_id = category._id
-    comic.author_id = author._id
+    comic.author_id = author
     if (company) {
-        comic.company_id = company._id
+        comic.company_id = company
     }
     let newComic = await Comic.create(comic)
     return newComic._id
@@ -42,7 +43,7 @@ let data = async() => {
     let cia2 = await newDoc(user8,Company,company2)
     let cia3 = await newDoc(user9,Company,company3)
     let cia4 = await newDoc(user10,Company,company4)
-    await newCategories(categories)
+    
     let ncomic1 = await newComic(comic1,aut1,cia3)
     let ncomic2 = await newComic(comic2,aut2,cia3)
     let ncomic3 = await newComic(comic3,aut3,cia3)
